@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script type="application/javascript">
+        var roomId = "1001";
+        var userId = parseInt(10000 * Math.random());
+
+        //建立连接
+        var socket = new WebSocket("ws://127.0.0.1:8080/chat?userId=" + userId + "&roomId=" + roomId);
+
+        //发消息
+        function sendMsg(msg){
+            socket.send(msg);
+        }
+
+        //收消息
+        socket.onmessage = function (event) {
+            var ta = document.getElementById("msg");
+            ta.value = ta.value + "\n" + event.data;
+        }
+
+    </script>
+
+    <form onsubmit="return false;">
+        <textarea id="msg"></textarea>
+        <input type="text" id="text" name="message" />
+        <input type="button" value="发送" onclick="sendMsg(this.form.message.value)"/>
+    </form>
+</body>
+</html>
